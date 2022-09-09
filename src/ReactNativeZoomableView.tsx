@@ -348,6 +348,13 @@ class ReactNativeZoomableView extends Component<
     e: GestureResponderEvent,
     gestureState: PanResponderGestureState
   ) => {
+    /** LSE customization: prevent handlers to activate with one active touch (prevent scroll with one finger and double tap).
+     *  Necessary for scrollable's page on our pdf component.
+    **/
+
+    if (gestureState.numberActiveTouches === 1)
+      return false;
+    
     if (this.props.onStartShouldSetPanResponder) {
       this.props.onStartShouldSetPanResponder(
         e,
